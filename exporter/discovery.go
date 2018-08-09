@@ -2,11 +2,13 @@ package exporter
 
 import (
 	"encoding/csv"
+	"fmt"
 	"os"
 	"strings"
 
 	"github.com/cloudfoundry-community/go-cfenv"
 	log "github.com/sirupsen/logrus"
+	vConfig "github.com/veritone/go-config"
 )
 
 // loadRedisArgs loads the configuration for which redis hosts to monitor from either
@@ -14,7 +16,7 @@ import (
 // passwords, and their aliases.
 func LoadRedisArgs(addr, password, alias, separator string) ([]string, []string, []string) {
 	if addr == "" {
-		addr = "redis://localhost:6379"
+		addr = getRedisAddrFromEnv()
 	}
 	addrs := strings.Split(addr, separator)
 	passwords := strings.Split(password, separator)
@@ -26,6 +28,28 @@ func LoadRedisArgs(addr, password, alias, separator string) ([]string, []string,
 		aliases = append(aliases, aliases[0])
 	}
 	return addrs, passwords, aliases
+}
+
+// Get redis address from datacenter config
+func getRedisAddrFromEnv() string {
+	configPath, ok := os.LookupEnv("CONFIG_PATH")
+	if ok {
+		var config Config
+		err := vConfig.GetConfig(&config, configPath)
+		if err != nil {
+			panic(fmt.Sprintf("Error getting config: %s", err))
+		}
+		return "redis:" + config.Redis.Address
+	}
+	return "redis://localhost:6379"
+}
+
+type Config struct {
+	Redis Redis `json:"redis"`
+}
+
+type Redis struct {
+	Address string `json:"address"`
 }
 
 // loadRedisFile opens the specified file and loads the configuration for which redis
