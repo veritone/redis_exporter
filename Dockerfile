@@ -21,9 +21,6 @@ RUN apk update && apk add -U build-base git curl libstdc++ ca-certificates
 RUN git config --global url."https://${GITHUB_ACCESS_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags  " -X main.VERSION=$TAG -X main.COMMIT_SHA1=$SHA1 -X main.BUILD_DATE=$DATE " -a -installsuffix cgo -o redis_exporter .
 
-
-
-
 #
 # release container
 #
