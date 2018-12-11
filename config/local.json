@@ -1,0 +1,5 @@
+{
+    "redis": {
+        "address": "http://redis32.aws-stage-rt.veritone.com:6379"
+    }
+}

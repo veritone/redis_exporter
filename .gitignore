@@ -6,3 +6,5 @@ src/
 .DS_Store
 .idea
 *.rdb
+vendor/
+.vscode/

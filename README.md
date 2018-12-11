@@ -1,6 +1,21 @@
 # Redis Metrics Exporter
 [![Circle CI](https://circleci.com/gh/oliver006/redis_exporter.svg?style=shield)](https://circleci.com/gh/oliver006/redis_exporter) [![Coverage Status](https://coveralls.io/repos/github/oliver006/redis_exporter/badge.svg?branch=master)](https://coveralls.io/github/oliver006/redis_exporter?branch=master) [![codecov](https://codecov.io/gh/oliver006/redis_exporter/branch/master/graph/badge.svg)](https://codecov.io/gh/oliver006/redis_exporter)
 
+# Veritone deployment
+To build a Docker container, simply do
+```bash
+sh build.sh
+```
+Follow the instruction belows to run the image
+
+To stop & remove the running docker instance, simply do
+```bash
+docker stop <instance_id> && docker rm <instance_id>
+```
+
+To test for stage metrics locally, you have to sshuttle to stage first, then either run the executable or the docker image
+
+# Requirements
 Prometheus exporter for Redis metrics.<br>
 Supports Redis 2.x, 3.x and 4.x
 
